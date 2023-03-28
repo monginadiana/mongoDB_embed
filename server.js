@@ -10,23 +10,30 @@ app.use(express.json());
 
 moongoose = connmon("mongodb://127.0.0.1:27017/embedrel")
 const {Schema, model} = moongoose
+
 // relationship adress
  const  Address = new Schema({
-    street:String,
-    state:String,
-    zipCode:String
+      street: { type: String, required: true },
+      state: { type: String, required: true },
+      zipCode: { type: String, required: true }
+    
  })
 
  const Dog = new Schema({
-   name:String,
-   age:Number,
+      name: { type: String, required: true },
+      age: { type: Number, required: true, min: 0 }
  })
 
  const OwnerSchema = new Schema({
-   name:String,
-   address:Address,
-   dogs:[Dog]
- })
+   name: { type: String, required: true },
+   address: { type: Address, required: true },
+   dogs: { type: [Dog], required: true, validate: [arrayLimit, 'dog exceeds the limit of 10'] }
+ });
+ 
+ function arrayLimit(val) {
+   return val.length <= 10;
+ }
+ 
 
  const Owner = model("Owner", OwnerSchema)
 
@@ -61,7 +68,9 @@ app.post("/abandon/:name/:id", async(req, res) => {
          res.json(owner)
          })
 
- 
+//  Many to may Relationships
+
+
 
 
 // listener
