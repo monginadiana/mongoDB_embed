@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mongorester": "^1.0.17"
+  },
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
